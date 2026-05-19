@@ -1,7 +1,7 @@
 ---
 name: seedance
-description: Seedance 2.0 prompt engineer. Translate natural-language video requests into production-grade prompts for ByteDance's Seedance 2.0 video model. Auto-picks mode (T2V/I2V/R2V/V2V/Frames), enforces the eight-element formula, three-segment timeline, @-syntax, named-camera and negative-constraint rules. Output is a clean prompt + recommended parameters that can be pasted into ANY Seedance client (jimeng.jianying.com, dreamina.capcut.com, Volcengine API, BytePlus, third-party wrappers). Zero CLI dependency.
-argument-hint: <natural-language request> [--mode t2v|i2v|r2v|v2v|frames] [--duration N] [--ratio R] [--style ...] [--no-text] [--lint] [--plan-only]
+description: Seedance 2.0 prompt engineer. Three modes: WRITE (natural language → production-grade prompt), LINT (diagnose anti-patterns in existing prompt), FIX (auto-rewrite a bad prompt into a good one with diff explanation). Auto-picks T2V/I2V/R2V/V2V/Frames, enforces eight-element formula, three-segment timeline, @-syntax, named cameras, and negative constraints. Output pastes cleanly into ANY Seedance client (jimeng.jianying.com, dreamina.capcut.com, Volcengine API, BytePlus, third-party wrappers). Zero CLI dependency.
+argument-hint: <natural-language request> | lint <prompt> | fix <prompt> [--mode t2v|i2v|r2v|v2v|frames] [--duration N] [--ratio R] [--style ...] [--no-text] [--plan-only]
 ---
 
 # /seedance - Seedance 2.0 Prompt Engineer
@@ -19,25 +19,52 @@ ByteDance / Volcano Engine SOT).
 
 ## What this skill does
 
-Given a request like:
+Three independent workflows. Pick by user intent.
 
-> "I want a 10s vertical TikTok-style vlog of a girl drinking coffee in a
->  cozy cafe."
+### WRITE mode (default)
 
-This skill:
+User input: a natural-language video request.
+Skill output: a freshly engineered prompt + recommended parameters.
 
-1. **Parses** the request into scene / subject / mood / duration / ratio /
-   assets.
-2. **Picks the mode** (T2V / I2V / R2V / V2V / Frames) based on which
-   reference assets you have.
-3. **Writes the engineered prompt** following the eight-element formula,
-   three-segment timeline, named-camera rule, audio-atmosphere declaration,
-   3-5 specific negatives, and (for R2V) `@image` rebinding in every
-   segment.
-4. **Returns parameters** (duration, ratio, model variant) with cost-aware
-   defaults.
-5. **Lists clients** the prompt can be pasted into (web, API, third-party).
-6. **Optionally** lints the prompt for anti-patterns before delivering.
+> "10s vertical TikTok-style vlog of a girl drinking coffee in a cozy cafe"
+> →
+> Parses → picks mode (T2V/I2V/R2V/V2V/Frames) → writes the prompt
+> following methodology → returns parameters + client list.
+
+### LINT mode (`/seedance lint <prompt>` or "audit this prompt")
+
+User input: an existing prompt.
+Skill output: rule-by-rule report (no rewriting).
+
+> ```
+> A beautiful young woman drinking coffee, cinematic, 8k, masterpiece
+> ```
+> →
+> 🔴 R-J01: junk tokens `cinematic` / `8k` / `masterpiece` — replace with
+>          named camera
+> 🔴 R-S01: missing color + material + light triplet
+> 🔴 R-T01: no time segments — pacing will be random
+> 🔴 R-A01: no `Overall audio atmosphere`
+> 🟢 score: 1/10
+
+### FIX mode (`/seedance fix <prompt>` or "fix this prompt")
+
+User input: a bad prompt.
+Skill output: lint report + REWRITTEN prompt + diff explanation
+(what changed and why).
+
+This is the highest-value workflow. Users with no Seedance background can
+type any rough idea and get a production-grade output back, with the
+engineering work explained. See "FIX workflow" below.
+
+---
+
+## What every workflow includes
+
+1. **Mode selection** (or respected if user forces with `--mode`)
+2. **Parameters** (duration, ratio, model variant) with cost-aware defaults
+3. **Client list** — where the prompt can be pasted
+4. **Methodology citations** — which rules from `methodology.md` apply
 
 ---
 
@@ -200,7 +227,8 @@ everything. But the user can dial in any level of precision:
 | `--language zh` / "全中文" | All description text in Chinese |
 | `--language mixed` (default) | English for engineering terms, free for content |
 | **"use this prompt: ..."** | User supplies own prompt; skill only picks mode + parameters |
-| `--lint` / "audit my prompt" | Run lint pass, report only (no prompt rewrite) |
+| `lint <prompt>` or "audit my prompt" | Run lint pass, report only (no rewrite) |
+| **`fix <prompt>` or "fix my prompt"** | **Run lint + rewrite + diff explanation** |
 | `--plan-only` (default) | Output prompt + advice; user runs it themselves |
 
 The skill **never** auto-executes anything. It is prompt-only.
@@ -216,14 +244,14 @@ scratch.
 
 ---
 
-## Lint workflow
+## Lint workflow (`lint <prompt>`)
 
-When invoked as `/seedance --lint <prompt>` or "audit this prompt":
+When invoked as `/seedance lint <prompt>` or "audit this prompt":
 
 1. Parse the prompt into structural pieces (segments, subjects, camera
    moves, negatives, etc.)
 2. Apply each rule in `lint-rules.md`
-3. Output a report:
+3. Output a report only — **do not rewrite**
 
 ```markdown
 ## Lint report
@@ -238,6 +266,116 @@ When invoked as `/seedance --lint <prompt>` or "audit this prompt":
 
 Score: 6/10 — fix 2 reds before submitting.
 ```
+
+---
+
+## FIX workflow (`fix <prompt>`) — the killer feature
+
+**Highest-value workflow.** Users with a rough or broken prompt get a
+production-grade rewrite back, with the engineering work explained.
+
+When invoked as `/seedance fix <prompt>` or "fix my prompt" or "rewrite
+this":
+
+### Step F1 — Lint the input
+
+Run every rule in `lint-rules.md` against the user's prompt. Collect:
+- 🔴 hard violations (R-T01 timeline, R-J01 junk, R-S01 triplet, R-A01
+  audio, R-M01 I2V redescription, R-R01 R2V rebinding, etc.)
+- 🟡 soft warnings
+- Score (1-10)
+
+### Step F2 — Infer intent
+
+From the user's broken prompt, extract their actual intent:
+- What's the scene about? (look past the junk tokens)
+- What's the implied duration / ratio? (vertical phrases → 9:16; "5 sec"
+  → 5s; if absent, default to 10s 9:16)
+- What mood do they want? (UGC / cinematic / e-commerce / etc.)
+- Are there any assets implied? (mentions of "image" / "video" / "ref" →
+  switch mode; otherwise default to T2V)
+- What language did they write in? (preserve language for content
+  description, switch engineering tags to English regardless)
+
+### Step F3 — Rewrite
+
+Write the new prompt **from scratch** using methodology.md, NOT by
+patching the user's text. Patching produces Frankenstein output.
+
+The rewrite must:
+- Add `Vertical|Horizontal video <ratio>` first line
+- Add `Overall audio atmosphere: ...` second line
+- Build 3 segments with proper `[0-Xs] [X-Ys] [Y-Zs]`
+- Each scene gets color + material + light triplet
+- Use concrete verbs (replace "doing X", "interacts with X" with action
+  sequences)
+- One camera move per segment
+- End with `Shot on <named camera>. <style>. <3-5 negatives>.`
+- Drop every banned token from the input
+- Strip every adjective chain
+- For I2V: never re-describe the subject
+- For R2V: bind `@image_N` in every segment
+
+### Step F4 — Output
+
+Use this fixed structure:
+
+```markdown
+## Lint report — score: X/10
+
+- 🔴 R-XXX: <issue>. → <fix>
+- ...
+
+## Fixed prompt (paste this)
+
+​```
+<rewritten engineered prompt>
+​```
+
+## What changed and why
+
+| Removed | Added | Reason |
+|---|---|---|
+| `cinematic` / `8k` / `masterpiece` | `Shot on Sony A7S3, slight film grain` | junk tokens (R-J01); named camera invokes documentary realism |
+| `beautiful young woman` | `young east-asian woman with shoulder-length dark hair, cream sweater` | vague subject (R-S02); concrete identity anchor |
+| `in a cozy cafe` | `marble counter, walnut shelves, warm tungsten pendant` | missing color + material + light (R-S01) |
+| (no time segments) | `[0-3s] [3-7s] [7-10s]` | timeline missing (R-T01) |
+| (no audio declaration) | `Overall audio atmosphere: warm lo-fi piano...` | BGM ignored without declaration (R-A01) |
+| (no camera move) | per-segment: push-in → locked → pull back | one move per segment (R-C01) |
+| (no negatives) | `no plastic skin, no oversaturated colors, no on-screen text` | 3-5 specific negatives (R-N01) |
+
+## Mode chosen and parameters
+
+- Mode: T2V (no anchor assets in original prompt)
+- Duration: 10s, Aspect ratio: 9:16, Model: seedance2.0fast
+- Paste into: jimeng.jianying.com / dreamina.capcut.com / Volcengine API /
+  BytePlus / third-party
+
+## Risks / open questions
+
+- The original prompt did not specify subject identity beyond "beautiful
+  young woman". I picked one specific anchor; if you want a different
+  ethnicity / age / clothing, change the description in segment 1.
+- The original prompt did not specify duration. I picked 10s as the most
+  stable archetype; tell me if you want 5s / 15s.
+```
+
+### FIX rules — DO and DON'T
+
+**DO**:
+- Read past the noise to infer real intent
+- Rewrite from scratch using methodology
+- Explain each change with a rule citation
+- Ask about ambiguities only if structurally unclear (e.g., "no duration
+  specified — defaulting to 10s; tell me if you want different")
+
+**DON'T**:
+- Patch the user's text (Frankenstein output)
+- Strip information they explicitly wanted (if they say "red lipstick"
+  keep that)
+- Add things they didn't imply (no inventing a third character)
+- Lecture them — keep diff explanation crisp, one row per change
+- Run unless explicitly asked (mode is `fix`, not default)
 
 ---
 

@@ -174,6 +174,50 @@ Shot on iPhone 15 Pro, slight handheld bob, warm color grading with boosted reds
 
 ---
 
+## Test 4: FIX workflow — junk prompt auto-rewrite (the killer feature)
+
+### Input (typical newbie prompt)
+
+```
+A beautiful young woman drinking coffee in a cozy cafe, cinematic,
+highly detailed, masterpiece, 8k, very beautiful, amazing quality,
+sunlight, professional photography
+```
+
+### Expected behavior
+Skill should:
+1. Run full lint (9 violations expected)
+2. Infer intent (T2V, ~10s, 9:16, lifestyle/UGC)
+3. Rewrite from scratch using methodology
+4. Output: lint report + new prompt + diff explanation table
+
+### Skill output
+
+See full case study: `seedance/examples/good/fix-junk-prompt.md`
+
+Summary:
+- Lint: 1/10 score (R-J01, R-J02, R-J03, R-S01, R-S02, R-T01, R-A01,
+  R-C02, R-N01 all trip)
+- Rewrite: 3-segment T2V prompt with Sony A7S3 camera, color + material +
+  light triplet per scene, audio declared, 5 specific negatives
+- Diff table: 8 rows mapping every removed/added element to its rule
+
+### Verification
+
+| Criterion | Status |
+|---|---|
+| All lint rules detect correctly | 🟢 9/9 |
+| Rewrite generated from scratch (not patched) | 🟢 |
+| Diff table covers every change with rule citation | 🟢 |
+| Output prompt scores 10/10 against lint | 🟢 |
+| Open questions surfaced (subject specifics, duration) | 🟢 — listed in "Risks / open questions" |
+| Zero personal/CLI path references | 🟢 |
+
+This test validates the highest-value workflow: any user with a rough or
+junk prompt can get a production-grade rewrite in one pass.
+
+---
+
 ## Cross-cutting validation
 
 ### What the skill outputs (post-test summary)

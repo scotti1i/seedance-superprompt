@@ -3,6 +3,10 @@
 A prompt that binds `@image1` only in the first segment, then uses
 pronouns. Classic failure mode.
 
+> **TL;DR**: paste this to `/seedance fix <prompt>` and the skill will
+> rebind `@image` in every segment automatically. This file shows the
+> manual analysis behind the fix.
+
 ## The bad prompt (R2V mode)
 
 ```

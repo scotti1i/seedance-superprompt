@@ -2,6 +2,10 @@
 
 A prompt that re-describes the subject when the image is already provided.
 
+> **TL;DR**: paste this to `/seedance fix <prompt>` and the skill will
+> remove subject redescription automatically. This file shows the manual
+> analysis behind the fix.
+
 ## The bad prompt (I2V mode, with anchor image)
 
 ```

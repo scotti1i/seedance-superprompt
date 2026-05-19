@@ -1,46 +1,119 @@
 # seedance-prompt
 
-> A Claude Code skill that turns "I want a 10s cat vlog" into a
-> production-grade Seedance 2.0 prompt that pastes cleanly into ANY
-> Seedance client.
+> A Claude Code skill that turns ANY rough video idea — even a broken
+> prompt full of junk tokens — into a production-grade Seedance 2.0
+> prompt that pastes cleanly into any Seedance client.
 
 Zero CLI dependency. Zero API calls. Zero credentials.
 Just engineered prompts, every time.
 
+**Three modes**: WRITE (idea → prompt), LINT (audit a prompt), FIX
+(rewrite a bad prompt into a good one with full diff explanation).
+
 ---
 
-## What it does
+## ⭐ Headline demo: FIX a junk prompt in 5 seconds
+
+### You type (typical newbie prompt)
 
 ```
-You:    "10s vertical TikTok-style coffee shop POV in autumn"
-
-Skill:  ## Recommended setup
-        - Mode: T2V
-        - Duration: 8-10s
-        - Aspect ratio: 9:16
-        - Model: seedance2.0fast
-        - Paste into: jimeng / capcut / volcengine / byteplus / PiAPI
-
-        ## Prompt
-
-        Vertical video 9:16. Overall audio atmosphere: warm jazz piano...
-        [0-3s] POV shot, eye-level walking pace, slight handheld bob...
-        [3-6s] Camera tilts down to the barista's hands at the counter...
-        [6-8s] Cut to a single ceramic cup of espresso on a walnut counter...
-        Shot on Sony A7S3, natural skin tone, slight film grain...
-
-        ## Engineering notes
-        - Mode T2V because no anchor assets provided
-        - 3-segment timeline (≥5 collapse — methodology rule R-T01)
-        - Each segment has color + material + light triplet (R-S01)
-        - One camera move per segment (R-C01)
-        - Sony A7S3 named camera invokes documentary realism (R-J03)
-        ...
+A beautiful young woman drinking coffee in a cozy cafe, cinematic,
+highly detailed, masterpiece, 8k, amazing quality
 ```
 
-Paste the prompt into [jimeng.jianying.com](https://jimeng.jianying.com),
-[dreamina.capcut.com](https://dreamina.capcut.com), Volcano Engine API,
-BytePlus ModelArk, or any third-party wrapper. Done.
+### Skill responds
+
+```
+## Lint report — score: 1/10
+
+🔴 R-J01: junk tokens "cinematic" / "highly detailed" / "masterpiece" / "8k"
+🔴 R-S01: missing color + material + light triplet
+🔴 R-T01: no time segments → pacing will be random
+🔴 R-A01: no Overall audio atmosphere → BGM ignored
+🔴 R-C02: no camera move
+🔴 R-J03: no named camera
+🔴 R-N01: no negatives
+... (9 violations total)
+
+## Fixed prompt (paste this)
+
+Vertical video 9:16. Overall audio atmosphere: warm lo-fi piano with
+soft espresso machine hiss, distant cafe chatter, no voiceover.
+
+[0-3s] Medium close-up handheld shot. A young east-asian woman with
+shoulder-length dark hair, cream cashmere sweater, sits at a marble
+counter. Warm tungsten pendant light overhead, dark walnut shelves with
+mason jars behind, single ceramic mug with steam rising. Slow push-in
+toward the mug. Sound: porcelain settles on marble, espresso machine
+hisses softly.
+
+[3-7s] Cut to extreme close-up of the mug. Her fingers wrap around the
+ceramic, condensation traces the rim, golden window light catches the
+foam ripples. She tilts the mug slowly. Sound: gentle slosh, lo-fi piano
+swells.
+
+[7-10s] Pull back to medium shot. She lifts the mug, takes a slow sip,
+eyes drift to the window, corner of her mouth lifts into a small private
+smile. Sound: piano resolves into a soft chime.
+
+Shot on Sony A7S3, natural skin tone, slight film grain, documentary
+realism. Face stable, no distortion, motion fluid, no plastic skin,
+no oversaturated colors, no on-screen text.
+
+## What changed and why
+
+Removed `cinematic` / `8k` / `masterpiece`  →  added `Shot on Sony A7S3`
+(R-J01 / R-J03 — junk tokens hurt, named camera invokes documentary realism)
+
+Added 3-segment timeline `[0-3s] [3-7s] [7-10s]`  (R-T01)
+Added color + material + light triplet to every scene  (R-S01)
+Added one camera move per segment: push-in → locked → pull back  (R-C01)
+Added `Overall audio atmosphere:` as line 2  (R-A01)
+Added 5 specific negatives at the end  (R-N01)
+... (full diff in skill output)
+
+## Mode & parameters
+- Mode: T2V (no assets implied)
+- Duration: 10s · Ratio: 9:16 · Model: seedance2.0fast
+- Paste into: jimeng.jianying.com, dreamina.capcut.com, Volcengine API,
+  BytePlus, PiAPI, Coze, etc.
+```
+
+**Score: 1/10 → 10/10. ~30 seconds.**
+
+Now paste the fixed prompt into [jimeng.jianying.com](https://jimeng.jianying.com),
+[dreamina.capcut.com](https://dreamina.capcut.com), Volcengine API,
+BytePlus, or any wrapper. Done.
+
+See the [full case study](seedance/examples/good/fix-junk-prompt.md).
+
+---
+
+## Three workflows
+
+### 1. WRITE — idea → prompt (default)
+
+```
+/seedance 10s vertical TikTok-style coffee shop POV in autumn
+```
+→ Skill picks T2V mode, writes 3-segment engineered prompt, lists clients.
+
+### 2. LINT — audit an existing prompt
+
+```
+/seedance lint <your prompt>
+```
+→ Skill returns rule-by-rule report + 1-10 score. No rewriting.
+
+### 3. FIX — rewrite a bad prompt (the killer feature)
+
+```
+/seedance fix <your bad prompt>
+```
+→ Lint report + REWRITTEN prompt + diff explanation (what changed, why).
+
+All three workflows output text only — paste into your Seedance client of
+choice.
 
 ---
 
@@ -95,13 +168,22 @@ generation / Dreamina / 即梦.
 
 ## Quick start
 
+### 🪄 Fix a bad prompt (most popular)
+
+```
+/seedance fix a beautiful girl drinking coffee, cinematic, 8k, masterpiece
+```
+
+→ Returns lint report + full rewrite + diff explanation in one pass.
+See [the headline demo](seedance/examples/good/fix-junk-prompt.md).
+
 ### Speed mode (one sentence)
 
 ```
 /seedance 10s vertical cat playing with a ball in soft afternoon light
 ```
 
-The skill auto-picks T2V, 9:16, 10s, seedance2.0fast, generates a 3-segment
+→ Skill auto-picks T2V, 9:16, 10s, seedance2.0fast, generates a 3-segment
 engineered prompt, and lists where you can paste it.
 
 ### Precision mode (lock specific knobs)
@@ -110,7 +192,7 @@ engineered prompt, and lists where you can paste it.
 /seedance product showcase 8s 16:9 cinematic, ARRI Alexa look, no subtitles
 ```
 
-The skill respects every constraint you specify.
+→ Skill respects every constraint you specify.
 
 ### Templates (pre-built scenarios)
 
@@ -119,34 +201,31 @@ The skill respects every constraint you specify.
 collar from Petsmart
 ```
 
-Substitutes variables in the verified `pet-vlog` template.
+→ Substitutes variables in the verified `pet-vlog` template.
 
-### Lint an existing prompt
+### Lint only (don't rewrite)
 
 ```
 /seedance lint <your prompt>
 ```
 
-Runs 25 lint rules and reports a grade.
-
-### Clone a reference video (advanced)
-
-```
-/seedance clone <video URL or local path>
-```
-
-Walks through asset extraction (frames + ref video + ref audio) + Gemini
-VLM reverse-engineering + final R2V prompt.
+→ Runs 25 lint rules and reports a grade. No rewriting.
 
 ---
 
 ## Features
 
+### 🪄 Three workflows in one skill
+- **WRITE**: idea → engineered prompt
+- **LINT**: audit any prompt against 25 anti-pattern rules
+- **FIX**: rewrite a bad prompt into a good one, with diff explanation
+
 ### 🎯 Auto mode selection
 Picks T2V / I2V / R2V / V2V / Frames based on what assets you have.
 
 ### 📐 Methodology enforcement
-25 lint rules from the official ByteDance SOT + field tests.
+25 lint rules distilled from the official ByteDance SOT + 100+ field
+tests.
 
 ### 📚 Template library
 8 verified production templates: pet vlog, product showcase, morning

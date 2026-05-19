@@ -2,6 +2,12 @@
 
 A prompt that LOOKS impressive but actively HURTS output quality.
 
+> **TL;DR**: paste this prompt to `/seedance fix <prompt>` and you'll get
+> the fixed version + diff explanation in one shot. This file shows the
+> manual analysis behind that fix.
+> See [the headline FIX demo](../good/fix-junk-prompt.md) for the
+> auto-rewrite case study.
+
 ## The bad prompt
 
 ```

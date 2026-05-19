@@ -3,6 +3,10 @@
 A catalog of patterns known to hurt Seedance 2.0 output, distilled from
 the official guides and ~100 field tests.
 
+This catalog powers two skill workflows:
+- **LINT** (`/seedance lint <prompt>`) — report only, no rewriting
+- **FIX** (`/seedance fix <prompt>`) — report + auto-rewrite with diff explanation
+
 Each rule:
 - **ID** in `R-<category><number>` format
 - **Severity**: 🔴 hard violation (high failure rate) / 🟡 soft warning
