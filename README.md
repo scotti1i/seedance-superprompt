@@ -13,6 +13,11 @@
 
 ⭐ [Star on GitHub](https://github.com/scotti1i/seedance-superprompt) · 📚 [Methodology](seedance/methodology.md) · ▶️ [Author's YouTube](https://www.youtube.com/@ScottGlobalAI) · 🇨🇳 [中文](README.zh-CN.md)
 
+> **Status**: solo-maintained by [@scotti1i](https://github.com/scotti1i).
+> Free to use, fork, and redistribute (MIT). **PRs not accepted at this
+> stage** — please use [Issues](https://github.com/scotti1i/seedance-superprompt/issues)
+> for bugs, lint-rule proposals, and template ideas. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ---
 
 ## ⚡ Install in 30 seconds

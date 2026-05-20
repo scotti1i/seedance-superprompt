@@ -13,6 +13,12 @@
 
 ⭐ [GitHub 加星](https://github.com/scotti1i/seedance-superprompt) · 📚 [方法论](seedance/methodology.md) · ▶️ [作者 YouTube](https://www.youtube.com/@ScottGlobalAI) · 🇬🇧 [English](README.md)
 
+> **状态**：由 [@scotti1i](https://github.com/scotti1i) 个人维护。
+> 任何人可以免费使用、fork、再发布（MIT）。**当前不接受 PR**——
+> bug / lint 规则建议 / 新模板提案请走
+> [Issues](https://github.com/scotti1i/seedance-superprompt/issues)。
+> 详情见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
 ---
 
 ## ⚡ 30 秒安装
