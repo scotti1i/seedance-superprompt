@@ -1,4 +1,7 @@
-# seedance-superprompt
+# Seedance 2.0 Superprompt
+
+> The Claude Code skill for writing, auditing, and auto-fixing
+> **ByteDance Seedance 2.0** video-generation prompts.
 
 **🌐**  [**English**](README.md)  ·  [中文](README.zh-CN.md)
 

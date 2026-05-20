@@ -1,4 +1,7 @@
-# seedance-superprompt
+# Seedance 2.0 Superprompt
+
+> 一个 Claude Code 技能，专门用来**写、审计、一键修复**字节
+> **Seedance 2.0** 视频生成模型的提示词。
 
 **🌐**  [English](README.md)  ·  [**中文**](README.zh-CN.md)
 
