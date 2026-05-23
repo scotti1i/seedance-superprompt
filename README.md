@@ -1,17 +1,48 @@
+<p align="center">
+  <img src="./assets/seedance-banner.svg" alt="Seedance 2.0 Superprompt - Write, lint, fix" width="100%" />
+</p>
+
+<p align="center">
+  <a href="README.md"><strong>English</strong></a>
+  ·
+  <a href="README.zh-CN.md">中文</a>
+  ·
+  <a href="seedance/methodology.md">Methodology</a>
+  ·
+  <a href="seedance/templates/INDEX.md">Templates</a>
+  ·
+  <a href="https://www.youtube.com/@ScottGlobalAI">YouTube</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/workflows-WRITE%20%2F%20LINT%20%2F%20FIX-090B10?style=flat-square" alt="WRITE / LINT / FIX" />
+  <img src="https://img.shields.io/badge/templates-8%20production%20scenarios-13233C?style=flat-square" alt="8 templates" />
+  <img src="https://img.shields.io/badge/lint%20rules-25%20anti--patterns-21152D?style=flat-square" alt="25 lint rules" />
+  <img src="https://img.shields.io/badge/license-MIT-FFB000?style=flat-square&labelColor=090B10&color=FFB000" alt="MIT License" />
+</p>
+
 # Seedance 2.0 Superprompt
 
-> A portable prompt skill / knowledge base for writing, auditing, and
-> auto-fixing **ByteDance Seedance 2.0** video-generation prompts.
-> Primary client: **Claude Code**. Also works as reference for **Codex,
-> Cursor, Claude.ai, ChatGPT, Gemini**, or any LLM agent.
+A prompt operating system for **ByteDance Seedance 2.0**: write new video prompts, audit weak prompts, and fix broken prompts into paste-ready production prompts.
 
-**🌐**  [**English**](README.md)  ·  [中文](README.zh-CN.md)
+Unlike prompt galleries, this repo does not try to collect thousands of examples. It gives you the reusable workflow behind good Seedance prompts: rules, templates, decision trees, and a Claude Code skill that applies them for you.
 
-> **Turn any rough video idea — even a junk-token soup — into a
-> production-grade Seedance 2.0 prompt that pastes anywhere.**
+> **Turn any rough video idea — even a junk-token soup — into a production-grade Seedance 2.0 prompt that pastes anywhere.**
 > Zero CLI · Zero API · Zero credentials.
 
-⭐ [Star on GitHub](https://github.com/scotti1i/seedance-superprompt) · 📚 [Methodology](seedance/methodology.md) · ▶️ [Author's YouTube](https://www.youtube.com/@ScottGlobalAI) · 🇨🇳 [中文](README.zh-CN.md)
+⭐ [Star on GitHub](https://github.com/scotti1i/seedance-superprompt) · 📚 [Methodology](seedance/methodology.md) · 🧩 [Template catalog](seedance/templates/INDEX.md) · 🇨🇳 [中文](README.zh-CN.md)
+
+## Why this repo exists
+
+Prompt galleries are useful when you need inspiration. This repo is for the next step: turning a messy idea into a repeatable, reviewable prompt workflow.
+
+| If you want... | Use this |
+|---|---|
+| A prompt for a new idea | `WRITE` mode generates a structured 3-segment prompt |
+| To know why a prompt fails | `LINT` mode scores it against 25 rules |
+| To repair a bad prompt | `FIX` mode rewrites it and explains the diff |
+| A proven starting point | 8 templates cover product, pet, food, city walk, unboxing, and more |
+| A portable rulebook | Use `methodology.md`, `lint-rules.md`, and templates in any LLM |
 
 > **Status**: solo-maintained by [@scotti1i](https://github.com/scotti1i).
 > Free to use, fork, and redistribute (MIT). **PRs not accepted at this
@@ -146,7 +177,7 @@ Now paste the fixed prompt into [jimeng.jianying.com](https://jimeng.jianying.co
 [dreamina.capcut.com](https://dreamina.capcut.com), Volcengine API,
 BytePlus, or any wrapper. Done.
 
-See the [full case study](seedance/examples/good/fix-junk-prompt.md).
+See the [full case study](seedance/examples/fix-junk-prompt.md).
 
 ---
 
@@ -178,7 +209,7 @@ choice.
 
 ---
 
-## Why this exists
+## Methodology behind the skill
 
 Seedance 2.0 by ByteDance is the strongest open multimodal video model
 available — but writing good prompts for it is **a different skill** from
@@ -211,14 +242,15 @@ curl -fsSL https://raw.githubusercontent.com/scotti1i/seedance-superprompt/main/
 
 ```bash
 git clone https://github.com/scotti1i/seedance-superprompt.git
-cp -r seedance-prompt/seedance ~/.claude/skills/seedance
+cp -r seedance-superprompt/seedance ~/.claude/skills/seedance
 ```
 
 ### Option C — Symlink (for contributors)
 
 ```bash
 git clone https://github.com/scotti1i/seedance-superprompt.git
-ln -s "$(pwd)/seedance-prompt/seedance" ~/.claude/skills/seedance
+cd seedance-superprompt
+ln -s "$(pwd)/seedance" ~/.claude/skills/seedance
 ```
 
 After install, restart Claude Code. The skill becomes available as
@@ -236,7 +268,7 @@ generation / Dreamina / 即梦.
 ```
 
 → Returns lint report + full rewrite + diff explanation in one pass.
-See [the headline demo](seedance/examples/good/fix-junk-prompt.md).
+See [the headline demo](seedance/examples/fix-junk-prompt.md).
 
 ### Speed mode (one sentence)
 
@@ -313,7 +345,7 @@ Prompts in Chinese, English, or mixed. Engineering tags stay English
 ## Repository structure
 
 ```
-seedance-prompt/
+seedance-superprompt/
 ├── README.md            ← you are here
 ├── LICENSE              ← MIT
 ├── CONTRIBUTING.md      ← how to add templates / lint rules
@@ -326,7 +358,7 @@ seedance-prompt/
     ├── modes/           ← per-mode handbooks (t2v / i2v / r2v / v2v / frames)
     ├── decision-trees/  ← visual pickers (mode / duration / camera / safety)
     ├── templates/       ← verified production templates
-    ├── examples/        ← good / bad prompt examples
+    ├── examples/        ← case studies and prompt examples
     └── lint-rules.md    ← 25 anti-pattern catalog
 ```
 

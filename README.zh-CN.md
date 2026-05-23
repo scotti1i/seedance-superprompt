@@ -1,17 +1,48 @@
+<p align="center">
+  <img src="./assets/seedance-banner.svg" alt="Seedance 2.0 Superprompt - Write, lint, fix" width="100%" />
+</p>
+
+<p align="center">
+  <a href="README.md">English</a>
+  ·
+  <a href="README.zh-CN.md"><strong>中文</strong></a>
+  ·
+  <a href="seedance/methodology.md">方法论</a>
+  ·
+  <a href="seedance/templates/INDEX.md">模板库</a>
+  ·
+  <a href="https://www.youtube.com/@ScottGlobalAI">YouTube</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/workflows-WRITE%20%2F%20LINT%20%2F%20FIX-090B10?style=flat-square" alt="WRITE / LINT / FIX" />
+  <img src="https://img.shields.io/badge/templates-8%20production%20scenarios-13233C?style=flat-square" alt="8 templates" />
+  <img src="https://img.shields.io/badge/lint%20rules-25%20anti--patterns-21152D?style=flat-square" alt="25 lint rules" />
+  <img src="https://img.shields.io/badge/license-MIT-FFB000?style=flat-square&labelColor=090B10&color=FFB000" alt="MIT License" />
+</p>
+
 # Seedance 2.0 Superprompt
 
-> 一个可移植的提示词工具 / 知识库，专门用来**写、审计、一键修复**字节
-> **Seedance 2.0** 视频生成模型的提示词。
-> 主入口：**Claude Code**。也可作为参考库给 **Codex / Cursor /
-> Claude.ai / ChatGPT / Gemini** 等任何 LLM 工具使用。
+一个面向 **ByteDance Seedance 2.0** 的 prompt operating system：写新提示词、审计弱提示词、把烂 prompt 修成可直接粘贴的生产级视频提示词。
 
-**🌐**  [English](README.md)  ·  [**中文**](README.zh-CN.md)
+它不是海量 prompt 画廊，而是把好 Seedance prompt 背后的工作流产品化：规则、模板、决策树，以及一个能自动执行这些规则的 Claude Code skill。
 
-> **把任意视频想法——哪怕是充满 junk token 的烂 prompt——一键变成
-> production-grade 的 Seedance 2.0 提示词，粘到任何客户端都能跑。**
+> **把任意视频想法——哪怕是充满 junk token 的烂 prompt——一键变成 production-grade 的 Seedance 2.0 提示词，粘到任何客户端都能跑。**
 > 零 CLI · 零 API · 零凭证。
 
-⭐ [GitHub 加星](https://github.com/scotti1i/seedance-superprompt) · 📚 [方法论](seedance/methodology.md) · ▶️ [作者 YouTube](https://www.youtube.com/@ScottGlobalAI) · 🇬🇧 [English](README.md)
+⭐ [GitHub 加星](https://github.com/scotti1i/seedance-superprompt) · 📚 [方法论](seedance/methodology.md) · 🧩 [模板库](seedance/templates/INDEX.md) · 🇬🇧 [English](README.md)
+
+## 为什么不是另一个 prompt 合集
+
+prompt 合集适合找灵感。这个 repo 解决下一步：把一个模糊想法变成可复用、可审计、可修复的 Seedance 工作流。
+
+| 你想要 | 用这个 |
+|---|---|
+| 给新想法写 prompt | `WRITE` 生成 3 段式结构化提示词 |
+| 判断 prompt 为什么失败 | `LINT` 用 25 条规则打分 |
+| 把烂 prompt 修好 | `FIX` 自动重写并解释 diff |
+| 直接找起点 | 8 个生产模板覆盖产品、宠物、美食、city walk、unboxing 等场景 |
+| 把规则带到别的 LLM | 直接复用 `methodology.md`、`lint-rules.md` 和 templates |
 
 > **状态**：由 [@scotti1i](https://github.com/scotti1i) 个人维护。
 > 任何人可以免费使用、fork、再发布（MIT）。**当前不接受 PR**——
@@ -146,7 +177,7 @@ no oversaturated colors, no on-screen text.
 [CapCut Dreamina](https://dreamina.capcut.com)、火山引擎 API、
 BytePlus 或任意第三方 wrapper，开跑。
 
-完整案例研究：[fix-junk-prompt.md](seedance/examples/good/fix-junk-prompt.md)
+完整案例研究：[fix-junk-prompt.md](seedance/examples/fix-junk-prompt.md)
 
 ---
 
@@ -177,7 +208,7 @@ BytePlus 或任意第三方 wrapper，开跑。
 
 ---
 
-## 为什么有这个
+## Skill 背后的方法论
 
 ByteDance 的 Seedance 2.0 是目前最强的开放多模态视频生成模型——但写好
 Seedance prompt 是一门**和 SD / Midjourney / Veo 完全不同的手艺**。

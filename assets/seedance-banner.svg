@@ -1,0 +1,19 @@
+<svg width="1280" height="420" viewBox="0 0 1280 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="420" rx="28" fill="#090B10"/>
+  <path d="M0 292C148 206 279 196 416 246C542 292 663 289 800 214C948 133 1095 116 1280 156V420H0V292Z" fill="#21152D"/>
+  <path d="M0 338C155 262 305 251 452 295C598 339 724 318 861 244C994 172 1128 149 1280 185V420H0V338Z" fill="#13233C"/>
+  <circle cx="1054" cy="120" r="88" fill="#FF4D8D" opacity="0.92"/>
+  <circle cx="1054" cy="120" r="52" fill="#FFB000" opacity="0.88"/>
+  <rect x="76" y="70" width="1128" height="276" rx="24" fill="#10151F" stroke="#2D3A50"/>
+  <text x="112" y="142" fill="#FFB000" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="22" font-weight="800" letter-spacing="2">SEEDANCE 2.0 SUPERPROMPT</text>
+  <text x="112" y="214" fill="#F8FAFC" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="56" font-weight="850">Write. Lint. Fix.</text>
+  <text x="112" y="270" fill="#B9C4D0" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="26" font-weight="520">A prompt operating system for ByteDance Seedance video generation</text>
+  <rect x="112" y="302" width="132" height="36" rx="18" fill="#FFB000"/>
+  <text x="136" y="326" fill="#090B10" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="16" font-weight="850">Zero API</text>
+  <rect x="260" y="302" width="154" height="36" rx="18" fill="#1D2635" stroke="#3A4A62"/>
+  <text x="284" y="326" fill="#F8FAFC" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="16" font-weight="720">3 workflows</text>
+  <rect x="430" y="302" width="148" height="36" rx="18" fill="#1D2635" stroke="#3A4A62"/>
+  <text x="454" y="326" fill="#F8FAFC" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="16" font-weight="720">8 templates</text>
+  <rect x="594" y="302" width="142" height="36" rx="18" fill="#1D2635" stroke="#3A4A62"/>
+  <text x="618" y="326" fill="#F8FAFC" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="16" font-weight="720">25 rules</text>
+</svg>
