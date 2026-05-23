@@ -21,6 +21,16 @@
   <img src="https://img.shields.io/badge/license-MIT-FFB000?style=flat-square&labelColor=090B10&color=FFB000" alt="MIT License" />
 </p>
 
+## 教程视频
+
+<p align="center">
+  <video src="./assets/tutorial.mp4" controls width="100%"></video>
+</p>
+
+<p align="center">
+  <a href="./assets/tutorial.mp4">打开教程视频</a>
+</p>
+
 # Seedance 2.0 Superprompt
 
 一个面向 **ByteDance Seedance 2.0** 的 prompt operating system：写新提示词、审计弱提示词、把烂 prompt 修成可直接粘贴的生产级视频提示词。

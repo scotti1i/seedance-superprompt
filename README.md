@@ -21,6 +21,16 @@
   <img src="https://img.shields.io/badge/license-MIT-FFB000?style=flat-square&labelColor=090B10&color=FFB000" alt="MIT License" />
 </p>
 
+## Tutorial Video
+
+<p align="center">
+  <video src="./assets/tutorial.mp4" controls width="100%"></video>
+</p>
+
+<p align="center">
+  <a href="./assets/tutorial.mp4">Open the tutorial video</a>
+</p>
+
 # Seedance 2.0 Superprompt
 
 A prompt operating system for **ByteDance Seedance 2.0**: write new video prompts, audit weak prompts, and fix broken prompts into paste-ready production prompts.
